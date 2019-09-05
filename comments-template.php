@@ -5,7 +5,7 @@ if ( empty( $shortname ) ) {
 	return;
 }
 
-$page_url = get_permalink(); // @todo urlencode and decode on the other end.
+$page_url = urlencode( get_permalink() );
 
 ?>
 <amp-iframe width="500" height="300"

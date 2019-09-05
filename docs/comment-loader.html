@@ -33,7 +33,7 @@ function getQueryVariable(variable) {
 	return(false);
 }
 var disqus_config = function () { 
-	this.page.url = getQueryVariable("url");
+	this.page.url = decodeURIComponent( getQueryVariable("url") );
 };
 (function() {
 	var d = document, s = d.createElement('script');
