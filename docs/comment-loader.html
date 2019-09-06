@@ -55,6 +55,7 @@ function receiveMessage( event ) {
 // Initialize Disqus on this page.
 var disqus_config = function () { 
 	this.page.url = decodeURIComponent( getQueryVariable( 'url' ) );
+	this.page.identifier = decodeURIComponent( getQueryVariable( 'identifier' ) );
 };
 ( function() {
 	var shortname = getQueryVariable( 'shortname' );

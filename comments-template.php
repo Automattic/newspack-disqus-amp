@@ -12,7 +12,8 @@ if ( empty( $shortname ) ) {
 }
 
 $page_url = urlencode( get_permalink() );
-$src = 'https://automattic.github.io/newspack-disqus-amp/comment-loader.html?shortname=' . $shortname . '&url=' . $page_url;
+$identifier = urlencode( Disqus_Public::dsq_identifier_for_post( get_post() ) );
+$src = 'https://automattic.github.io/newspack-disqus-amp/comment-loader.html?shortname=' . $shortname . '&url=' . $page_url . '&identifier=' . $identifier;
 ?>
 <amp-iframe width="500" height="300"
 	layout="responsive"
