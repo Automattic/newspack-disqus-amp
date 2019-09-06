@@ -57,8 +57,10 @@ var disqus_config = function () {
 	this.page.url = decodeURIComponent( getQueryVariable( 'url' ) );
 };
 ( function() {
+	var shortname = getQueryVariable( 'shortname' );
+	shortname.replace( /([^a-z\-])/gi, '' );
 	var d = document, s = d.createElement( 'script' );
-	s.src = '//' + getQueryVariable( 'shortname' ) + '.disqus.com/embed.js';
+	s.src = '//' + shortname + '.disqus.com/embed.js';
 	s.setAttribute( 'data-timestamp', new Date() );
 	( d.head || d.body ).appendChild( s );
 } )();
