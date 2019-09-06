@@ -1,44 +1,65 @@
 <div id="disqus_thread"></div>
+
 <script>
-window.addEventListener('message', receiveMessage, false);
-function receiveMessage(event) {
-	if (event.data) {
-		var msg;
-		try {
-			msg = JSON.parse(event.data);
-		} catch (err) {
-			// Do nothing
+/**
+ * This page is intended to be used as an iframe. 
+ * It parses the iframe src attribute for 'shortname' and 'url' query params, 
+ * and loads up the appropriate Disqus comment thread within the iframe.
+ *
+ * @see https://github.com/disqus/disqus-install-examples/tree/master/google-amp
+ * @see https://github.com/disqus/disqus-install-examples/issues/3
+ */
+
+/**
+ * Common code snippet for getting query variables from the URL.
+ *
+ * @see https://css-tricks.com/snippets/javascript/get-url-variables/
+ * @param string variable The query variable to get the value of.
+ * @return string The value.
+ */
+function getQueryVariable( variable ) {
+	var query = window.location.search.substring( 1 );
+	var vars = query.split( '&' );
+	for ( var i = 0; i < vars.length; i++ ) {
+		var pair = vars[ i ].split( '=' );
+		if( pair[0] == variable ) {
+			return pair[1];
 		}
-		if (!msg)
+	}
+	return '';
+}
+
+ // Resize handler to keep things responsive.
+window.addEventListener( 'message', receiveMessage, false );
+function receiveMessage( event ) {
+	if ( event.data ) {
+		var msg = false;
+		try {
+			msg = JSON.parse( event.data );
+		} catch ( err ) {
+			// Do nothing.
+		}
+		if ( ! msg )
 			return false;
 
-		if (msg.name === 'resize') {
-			window.parent.postMessage({
-			  sentinel: 'amp',
-			  type: 'embed-size',
-			  height: msg.data.height
-			}, '*');
+		if ( 'resize' === msg.name ) {
+			window.parent.postMessage( {
+				sentinel: 'amp',
+				type: 'embed-size',
+				height: msg.data.height
+			}, '*' );
 		}
 	}
 }
-</script>
-<script>
-function getQueryVariable(variable) {
-	var query = window.location.search.substring(1);
-	var vars = query.split("&");
-	for (var i=0;i<vars.length;i++) {
-		var pair = vars[i].split("=");
-		if(pair[0] == variable){return pair[1];}
-	}
-	return(false);
-}
+
+// Initialize Disqus on this page.
 var disqus_config = function () { 
-	this.page.url = decodeURIComponent( getQueryVariable("url") );
+	this.page.url = decodeURIComponent( getQueryVariable( 'url' ) );
 };
-(function() {
-	var d = document, s = d.createElement('script');
-	s.src = '//' + getQueryVariable("shortname") + '.disqus.com/embed.js';
-	s.setAttribute('data-timestamp', +new Date());
-	(d.head || d.body).appendChild(s);
-})();
+( function() {
+	var d = document, s = d.createElement( 'script' );
+	s.src = '//' + getQueryVariable( 'shortname' ) + '.disqus.com/embed.js';
+	s.setAttribute( 'data-timestamp', new Date() );
+	( d.head || d.body ).appendChild( s );
+} )();
 </script>
