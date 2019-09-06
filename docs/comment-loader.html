@@ -58,7 +58,7 @@ var disqus_config = function () {
 };
 ( function() {
 	var shortname = getQueryVariable( 'shortname' );
-	shortname.replace( /([^a-z\-])/gi, '' );
+	shortname = shortname.replace( /([^a-z\-])/gi, '' );
 	var d = document, s = d.createElement( 'script' );
 	s.src = '//' + shortname + '.disqus.com/embed.js';
 	s.setAttribute( 'data-timestamp', new Date() );
